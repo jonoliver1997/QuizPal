@@ -1,5 +1,7 @@
 # React + Vite
 
+This is a simple Flashcard app. Users can add decks with custom flash cards and use the study tool to flip through the flashcards and test their knowlegde. Here is the hosted link https://quizpal.netlify.app/
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
