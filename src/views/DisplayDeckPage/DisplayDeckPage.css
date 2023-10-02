@@ -1,0 +1,184 @@
+.utility--button {
+  background-color: #00a5cf;
+  color: white;
+  border-radius: 20px;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.utility--button--icon {
+  vertical-align:auto;
+  font-size: 10px;
+  margin-left: 5px;
+}
+
+.apply--changes--button {
+  background-color: #ACE4AA;
+}
+.delete--deck--button {
+  background-color: #e74c3c;
+}
+
+.cards--grid{
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 40px;
+  width: 100%;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+@media only screen and (min-width: 601px) {
+  .cards--grid {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .cards--grid {
+    grid-template-columns: repeat(3, 1fr); 
+  }
+}
+
+.card--container {
+  border-radius: 20px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d; /* Added for 3D effect */
+  transition: transform 0.5s ; /* Added for flip animation */
+}
+
+.Card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-radius: 20px;
+  height: 250px;
+  cursor: pointer;
+  width: 250px;
+}
+
+.card--container.flipped {
+  transform: rotateY(180deg);
+}
+
+.card--front,
+.card--back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.card--front {
+  transform: rotateY(0deg);
+  background-color: #52b69a;
+  
+}
+
+.card--back {
+  transform: rotateY(180deg);
+  background-color: #ACE4AA;
+  color: black;
+  
+}
+
+.new--card--form form{
+  width: 100%;
+}
+
+.modal--overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Ensure the modal is on top of other elements */
+}
+
+.modal--content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: #282c34;
+  border-radius: 20px;
+  padding: 20px;
+  width: 60%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.new--card--form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+}
+
+.add--card--buttons{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.add--card--button {
+  margin-right: 10px;
+}
+
+.edit--buttons--container{
+  display: flex;
+  width: 100%;
+  height: 50px;
+  justify-content: space-between;
+  padding: 0 15px;
+  margin-bottom: -19px;
+  padding-top: 5px;
+}
+.delete--card--button {
+  font-size: 17px;
+  color: #e74c3c;
+  cursor: pointer;
+  border: 1px solid #e74c3c;
+  border-radius: 10px;
+}
+
+.edit--card--button {
+  color: #000000;
+  cursor: pointer;
+  background-color: transparent;
+  padding: 1px;
+  border-radius: 5px;
+}
+
+.card--edit--form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  background-color: #ACE4AA;
+  height: 250px;
+  border-radius: 20px;
+}
