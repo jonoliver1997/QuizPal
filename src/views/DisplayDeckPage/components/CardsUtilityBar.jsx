@@ -27,8 +27,8 @@ export default function CardsUtilityBar({
 
   return (
     <div className="UtilityBar">
-      <button className="add--new--button" onClick={onAddCard}>
-        New Card <FaPlus className="icon" />
+      <button className="utility--button black" onClick={onAddCard}>
+        New Card <FaPlus className="utility--button--icon" />
       </button>
       <Link to="./study">
         <button className="utility--button">
@@ -50,10 +50,7 @@ export default function CardsUtilityBar({
         </button>
       )}
       <Link to="/">
-        <button
-          className="utility--button delete--deck--button"
-          onClick={onDeleteDeck}
-        >
+        <button className="utility--button red" onClick={onDeleteDeck}>
           Delete <FaTrash className="utility--button--icon" />{" "}
         </button>
       </Link>
