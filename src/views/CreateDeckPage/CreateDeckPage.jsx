@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { saveDeckToLocalStorage } from "../../utils/localStorage";
 import "./CreateDeckPage.css";
+import axios from "axios";
 
 function CreateDeckPage({ decks, setDecks }) {
   const navigate = useNavigate();
@@ -29,6 +30,51 @@ function CreateDeckPage({ decks, setDecks }) {
     setCardFront("");
     setCardBack("");
   };
+  /* const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const newDeckData = {
+      title: deckTitle,
+      cards: cards, // Replace 'cards' with the array of cards you have in your state
+    };
+
+    // Make a POST request to create a new deck
+    const response = await axios.post('http://localhost:3000/decks', newDeckData);
+
+    console.log('Created new deck:', response.data);
+    // Handle success or navigate to another page
+  } catch (error) {
+    console.error('Error creating deck:', error);
+    // Handle error
+  }
+};*/
+
+  /* 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const newDeck = {
+      title: deckTitle,
+      cards: [...cards],
+    };
+
+    try {
+      const response = await axios.post("http://localhost:YOUR_SERVER_PORT/decks", newDeck);
+
+      // Update state or do other operations with the response
+      setDecks([...decks, response.data]);
+
+      setDeckTitle("");
+      setCards([]);
+
+      navigate("/");
+    } catch (error) {
+      console.error("Error creating deck:", error.message);
+      // Handle error states
+    }
+  };
+ */
 
   const handleSubmit = (e) => {
     e.preventDefault();
