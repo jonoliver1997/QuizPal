@@ -58,7 +58,10 @@ function CreateDeckPage({ decks, setDecks }) {
     };
 
     try {
-      const response = await axios.post("http://localhost:3500/decks", newDeck);
+      const response = await axios.post(
+        "https://quizpal-api.onrender.com/decks",
+        newDeck
+      );
 
       // Update state or do other operations with the response
       setDecks([...decks, response.data]);

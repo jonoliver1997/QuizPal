@@ -17,7 +17,9 @@ function App() {
   useEffect(() => {
     const fetchDecks = async () => {
       try {
-        const response = await axios.get("http://localhost:3500/decks");
+        const response = await axios.get(
+          "https://quizpal-api.onrender.com/decks"
+        );
         setDecks(response.data); // Update state with fetched decks
       } catch (error) {
         console.error("Error fetching decks:", error.message);
