@@ -40,7 +40,7 @@ function CreateDeckPage({ decks, setDecks }) {
     };
 
     // Make a POST request to create a new deck
-    const response = await axios.post('http://localhost:3000/decks', newDeckData);
+    const response = await axios.post('http://localhost:3500/decks', newDeckData);
 
     console.log('Created new deck:', response.data);
     // Handle success or navigate to another page
@@ -49,8 +49,6 @@ function CreateDeckPage({ decks, setDecks }) {
     // Handle error
   }
 };*/
-
-  /* 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -60,7 +58,7 @@ function CreateDeckPage({ decks, setDecks }) {
     };
 
     try {
-      const response = await axios.post("http://localhost:YOUR_SERVER_PORT/decks", newDeck);
+      const response = await axios.post("http://localhost:3500/decks", newDeck);
 
       // Update state or do other operations with the response
       setDecks([...decks, response.data]);
@@ -74,31 +72,30 @@ function CreateDeckPage({ decks, setDecks }) {
       // Handle error states
     }
   };
- */
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
 
-    // Create a new deck with the provided title
-    const newDeck = {
-      title: deckTitle,
-      deckId: decks.length + 1,
-      cards: [...cards],
-    };
+  //   // Create a new deck with the provided title
+  //   const newDeck = {
+  //     title: deckTitle,
+  //     deckId: decks.length + 1,
+  //     cards: [...cards],
+  //   };
 
-    // Save deck to local storage
-    saveDeckToLocalStorage(newDeck);
+  //   // Save deck to local storage
+  //   saveDeckToLocalStorage(newDeck);
 
-    // Add the new deck to the decks array
-    setDecks([...decks, newDeck]);
+  //   // Add the new deck to the decks array
+  //   setDecks([...decks, newDeck]);
 
-    // Clear form inputs
-    setDeckTitle("");
-    setCards([]);
+  //   // Clear form inputs
+  //   setDeckTitle("");
+  //   setCards([]);
 
-    // Navigate back to DecksPage
-    navigate("/");
-  };
+  //   // Navigate back to DecksPage
+  //   navigate("/");
+  // };
 
   return (
     <div className="CreateDeckPage">

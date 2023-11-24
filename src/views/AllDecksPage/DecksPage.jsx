@@ -8,11 +8,12 @@ function DecksPage({ decks }) {
 
   //Update filtered decks whenever search text changes
   useEffect(() => {
-    const filtered = decks.filter((deck) =>
-      deck.title.toLowerCase().includes(searchText.toLowerCase())
-    );
-
-    setFilteredDecks(filtered);
+    if (decks) {
+      const filtered = decks.filter((deck) =>
+        deck.title.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredDecks(filtered);
+    }
   }, [decks, searchText]);
 
   const handleSearchInputChange = (e) => {

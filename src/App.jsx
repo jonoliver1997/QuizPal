@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import axios from "axios";
 import "./App.css";
 import Header from "./components/Header";
 import DecksPage from "./views/AllDecksPage/DecksPage";
@@ -14,9 +15,18 @@ function App() {
   const [isFlipped, setIsFlipped] = useState(false);
 
   useEffect(() => {
-    const loadedDecks = loadDecksFromLocalStorage();
-    setDecks(loadedDecks);
-  }, []);
+    const fetchDecks = async () => {
+      try {
+        const response = await axios.get("http://localhost:3500/decks");
+        setDecks(response.data); // Update state with fetched decks
+      } catch (error) {
+        console.error("Error fetching decks:", error.message);
+        // Handle error states
+      }
+    };
+
+    fetchDecks();
+  }, [setDecks]);
 
   return (
     <Router>
