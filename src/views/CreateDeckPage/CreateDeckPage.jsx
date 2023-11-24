@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { saveDeckToLocalStorage } from "../../utils/localStorage";
 import "./CreateDeckPage.css";
+import axios from "axios";
 
 function CreateDeckPage({ decks, setDecks }) {
   const navigate = useNavigate();
@@ -29,30 +30,72 @@ function CreateDeckPage({ decks, setDecks }) {
     setCardFront("");
     setCardBack("");
   };
+  /* const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = (e) => {
+  try {
+    const newDeckData = {
+      title: deckTitle,
+      cards: cards, // Replace 'cards' with the array of cards you have in your state
+    };
+
+    // Make a POST request to create a new deck
+    const response = await axios.post('http://localhost:3500/decks', newDeckData);
+
+    console.log('Created new deck:', response.data);
+    // Handle success or navigate to another page
+  } catch (error) {
+    console.error('Error creating deck:', error);
+    // Handle error
+  }
+};*/
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create a new deck with the provided title
     const newDeck = {
       title: deckTitle,
-      deckId: decks.length + 1,
       cards: [...cards],
     };
 
-    // Save deck to local storage
-    saveDeckToLocalStorage(newDeck);
+    try {
+      const response = await axios.post("http://localhost:3500/decks", newDeck);
 
-    // Add the new deck to the decks array
-    setDecks([...decks, newDeck]);
+      // Update state or do other operations with the response
+      setDecks([...decks, response.data]);
 
-    // Clear form inputs
-    setDeckTitle("");
-    setCards([]);
+      setDeckTitle("");
+      setCards([]);
 
-    // Navigate back to DecksPage
-    navigate("/");
+      navigate("/");
+    } catch (error) {
+      console.error("Error creating deck:", error.message);
+      // Handle error states
+    }
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   // Create a new deck with the provided title
+  //   const newDeck = {
+  //     title: deckTitle,
+  //     deckId: decks.length + 1,
+  //     cards: [...cards],
+  //   };
+
+  //   // Save deck to local storage
+  //   saveDeckToLocalStorage(newDeck);
+
+  //   // Add the new deck to the decks array
+  //   setDecks([...decks, newDeck]);
+
+  //   // Clear form inputs
+  //   setDeckTitle("");
+  //   setCards([]);
+
+  //   // Navigate back to DecksPage
+  //   navigate("/");
+  // };
 
   return (
     <div className="CreateDeckPage">
