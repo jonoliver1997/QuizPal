@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "./components/Card";
 import CardsUtilityBar from "./components/CardsUtilityBar";
 import { Link, useParams } from "react-router-dom";
@@ -8,9 +8,11 @@ import {
 } from "../../utils/localStorage";
 import "./DisplayDeckPage.css";
 import NewCardForm from "./components/NewCardForm";
+import axios from "axios";
 
 export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
   const { deckId } = useParams();
+  const [deck, setDeck] = useState(null);
   const [flippedCardId, setFlippedCardId] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
@@ -19,7 +21,23 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
   const [editMode, setEditMode] = useState(false);
   const [editedCards, setEditedCards] = useState([]);
 
-  const deck = decks.find((deck) => deck.deckId === Number(deckId));
+  useEffect(() => {
+    const fetchDeckById = async () => {
+      try {
+        const response = await axios.get(
+          `https://quizpal-api.onrender.com/decks/${deckId}`
+        );
+        setDeck(response.data); // Set the fetched deck in state
+        console.log(response.data);
+        console.log(deck);
+      } catch (error) {
+        console.error("Error fetching deck:", error.message);
+        // Handle error states
+      }
+    };
+
+    fetchDeckById(); // Call the function to fetch the deck by ID
+  }, [deckId]); // Fetch whenever deckId changes
 
   if (!deck) {
     return <div>Deck not found</div>;
@@ -54,14 +72,6 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
     setNewCardFront("");
     setNewCardBack("");
   };
-
-  const lastUsedCardId = decks.reduce((maxId, deck) => {
-    const maxDeckCardId = deck.cards.reduce(
-      (maxId, card) => Math.max(maxId, card.cardId),
-      0
-    );
-    return Math.max(maxId, maxDeckCardId);
-  }, 0);
 
   const handleAddCardSubmit = (e) => {
     e.preventDefault();

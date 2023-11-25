@@ -8,7 +8,6 @@ import StudyDeckPage from "./views/StudyDeckPage/StudyDeckPage";
 import Footer from "./components/Footer";
 import DisplayDeckPage from "./views/DisplayDeckPage/DisplayDeckPage";
 import CreateDeckPage from "./views/CreateDeckPage/CreateDeckPage";
-import { loadDecksFromLocalStorage } from "./utils/localStorage";
 
 function App() {
   const [decks, setDecks] = useState([]);
