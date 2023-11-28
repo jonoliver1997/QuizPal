@@ -22,7 +22,7 @@ function DecksPage({ decks }) {
 
   return (
     <div className="DecksPage">
-      <h2 className="decks--title">Your Decks</h2>
+      <h2 className="page--title">Your Decks</h2>
       <DecksUtilityBar onSearchInputChange={handleSearchInputChange} />
       {filteredDecks.length === 0 ? (
         <h3>Add new Deck</h3>

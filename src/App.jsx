@@ -8,6 +8,7 @@ import StudyDeckPage from "./views/StudyDeckPage/StudyDeckPage";
 import Footer from "./components/Footer";
 import DisplayDeckPage from "./views/DisplayDeckPage/DisplayDeckPage";
 import CreateDeckPage from "./views/CreateDeckPage/CreateDeckPage";
+import RegisterPage from "./views/RegisterPage/RegisterPage";
 
 function App() {
   const [decks, setDecks] = useState([]);
@@ -34,7 +35,8 @@ function App() {
       <div className="App">
         <Header />
         <Routes>
-          <Route path="/" exact element={<DecksPage decks={decks} />} />
+          <Route path="/" exact element={<RegisterPage />} />
+          <Route path="/home" exact element={<DecksPage decks={decks} />} />
           <Route
             path="/deck/:deckId"
             element={

@@ -102,7 +102,7 @@ function CreateDeckPage({ decks, setDecks }) {
 
   return (
     <div className="CreateDeckPage">
-      <h2 className="create--deck--title">Create a New Deck</h2>
+      <h2 className="page--title">Create a New Deck</h2>
       <form onSubmit={handleSubmit} className="new--deck--form">
         <div className="form--inputs">
           <input
