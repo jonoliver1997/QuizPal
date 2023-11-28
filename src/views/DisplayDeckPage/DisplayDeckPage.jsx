@@ -234,7 +234,7 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
 
   return (
     <div className="DisplayDeckPage">
-      <h2 className="decks--title">{deck.title}</h2>
+      <h2 className="page--title">{deck.title}</h2>
       <p>Cards: {deck.cards.length}</p>
       <CardsUtilityBar
         deck={deck}
