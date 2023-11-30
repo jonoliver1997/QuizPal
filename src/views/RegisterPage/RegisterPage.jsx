@@ -8,7 +8,7 @@ function RegisterPage() {
       <h2 className="page--title">Register</h2>
       <RegisterForm />
       <p>
-        Already have an account? Login <Link to="/login">Here</Link>
+        Already have an account? Login <Link to="/">Here</Link>
       </p>
     </div>
   );

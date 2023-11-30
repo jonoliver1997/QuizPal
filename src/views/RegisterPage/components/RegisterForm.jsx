@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -23,12 +24,13 @@ export default function RegisterForm() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent form from refreshing the page
 
     const { firstName, lastName, email, username, password, confirmPassword } =
       formData;
 
+    //Perform validation checks
     if (
       firstName.trim() === "" ||
       lastName.trim() === "" ||
@@ -56,9 +58,31 @@ export default function RegisterForm() {
       return;
     }
 
-    alert("Registered!");
-    console.log(formData);
-    navigate("/home");
+    //If all checks pass, alert user and navigate to home page
+    try {
+      const response = await axios.post(
+        "https://quizpal-api.onrender.com/users/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status !== 201) {
+        throw new Error("Network response was not ok.");
+      }
+
+      alert("Registration successful!");
+      console.log("formData:", formData);
+
+      // Redirect to login page
+      navigate("/home");
+    } catch (error) {
+      console.error("Error:", error.message);
+      alert("There was an error registering the user.");
+    }
   };
 
   return (
