@@ -24,8 +24,14 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
   useEffect(() => {
     const fetchDeckById = async () => {
       try {
+        const token = localStorage.getItem("token");
         const response = await axios.get(
-          `https://quizpal-api.onrender.com/decks/${deckId}`
+          `https://quizpal-api.onrender.com/decks/${deckId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setDeck(response.data); // Set the fetched deck in state
         console.log(response.data);
@@ -278,7 +284,7 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
           hideAddCardForm={hideAddCardForm}
         />
       )}
-      <Link to={`/`}>
+      <Link to={`/home`}>
         <button className="utility--button all--decks--button">
           Back to All Decks
         </button>

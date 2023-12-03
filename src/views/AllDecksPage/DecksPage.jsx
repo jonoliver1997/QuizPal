@@ -1,10 +1,36 @@
 import React, { useState, useEffect } from "react";
 import DecksUtilityBar from "./components/DecksUtilityBar";
 import DecksGrid from "./components/DecksGrid";
+import axios from "axios";
 
-function DecksPage({ decks }) {
+function DecksPage() {
+  const [decks, setDecks] = useState([]);
   const [searchText, setSearchText] = useState(""); // State for search text
   const [filteredDecks, setFilteredDecks] = useState(decks); // State to store filtered decks
+
+  //Fetch decks from API when component mounts
+  useEffect(() => {
+    const fetchDecks = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        console.log("token from local storage:", token);
+        const response = await axios.get(
+          "https://quizpal-api.onrender.com/decks",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setDecks(response.data); // Update state with fetched decks
+      } catch (error) {
+        console.error("Error fetching decks:", error.message);
+        // Handle error states
+      }
+    };
+
+    fetchDecks();
+  }, []);
 
   //Update filtered decks whenever search text changes
   useEffect(() => {

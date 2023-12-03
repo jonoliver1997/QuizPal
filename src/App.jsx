@@ -16,31 +16,37 @@ function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
 
-    if (token) {
-      setIsAuthenticated(true);
-    }
-  }, []);
+  //   if (token) {
+  //     setIsAuthenticated(true);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      const fetchDecks = async () => {
-        try {
-          const response = await axios.get(
-            "https://quizpal-api.onrender.com/decks"
-          );
-          setDecks(response.data); // Update state with fetched decks
-        } catch (error) {
-          console.error("Error fetching decks:", error.message);
-          // Handle error states
-        }
-      };
-    }
-
-    fetchDecks();
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     const fetchDecks = async () => {
+  //       try {
+  //         const token = localStorage.getItem("token");
+  //         console.log("token:", token);
+  //         const response = await axios.get(
+  //           "https://quizpal-api.onrender.com/decks",
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${token}`,
+  //             },
+  //           }
+  //         );
+  //         setDecks(response.data); // Update state with fetched decks
+  //       } catch (error) {
+  //         console.error("Error fetching decks:", error.message);
+  //         // Handle error states
+  //       }
+  //     };
+  //     fetchDecks();
+  //   }
+  // }, [isAuthenticated]);
 
   return (
     <Router>

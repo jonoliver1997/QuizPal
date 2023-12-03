@@ -58,9 +58,15 @@ function CreateDeckPage({ decks, setDecks }) {
     };
 
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.post(
         "https://quizpal-api.onrender.com/decks",
-        newDeck
+        newDeck,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       // Update state or do other operations with the response
@@ -69,7 +75,7 @@ function CreateDeckPage({ decks, setDecks }) {
       setDeckTitle("");
       setCards([]);
 
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error("Error creating deck:", error.message);
       // Handle error states
