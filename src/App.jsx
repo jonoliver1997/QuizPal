@@ -14,22 +14,33 @@ import LoginPage from "./views/LoginPage/LoginPage";
 function App() {
   const [decks, setDecks] = useState([]);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const fetchDecks = async () => {
-      try {
-        const response = await axios.get(
-          "https://quizpal-api.onrender.com/decks"
-        );
-        setDecks(response.data); // Update state with fetched decks
-      } catch (error) {
-        console.error("Error fetching decks:", error.message);
-        // Handle error states
-      }
-    };
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const fetchDecks = async () => {
+        try {
+          const response = await axios.get(
+            "https://quizpal-api.onrender.com/decks"
+          );
+          setDecks(response.data); // Update state with fetched decks
+        } catch (error) {
+          console.error("Error fetching decks:", error.message);
+          // Handle error states
+        }
+      };
+    }
 
     fetchDecks();
-  }, [setDecks]);
+  }, [isAuthenticated]);
 
   return (
     <Router>
