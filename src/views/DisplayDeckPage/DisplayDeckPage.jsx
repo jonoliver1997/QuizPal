@@ -77,41 +77,29 @@ export default function DisplayDeckPage({ isFlipped }) {
     setNewCardBack("");
   };
 
-  const handleAddCardSubmit = (e) => {
+  const handleAddCardSubmit = async (e) => {
     e.preventDefault();
-    const updatedDecks = [...decks];
 
-    const deckIndex = updatedDecks.findIndex((d) => d.deckId === deck.deckId);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `http://localhost:3500/decks/${deckId}`,
+        {
+          front: newCardFront,
+          back: newCardBack,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    if (deckIndex !== -1) {
-      // Create a new deck object with the updated cards array
-      const updatedDeck = {
-        ...updatedDecks[deckIndex],
-        cards: [...updatedDecks[deckIndex].cards],
-      };
-
-      const newCardId = lastUsedCardId + 1;
-
-      // Add the new card to the updated deck's cards array
-      const newCard = {
-        cardId: newCardId,
-        front: newCardFront,
-        back: newCardBack,
-      };
-      updatedDeck.cards.push(newCard);
-
-      // Replace the old deck with the updated deck in the copy of the decks array
-      updatedDecks[deckIndex] = updatedDeck;
-
-      // Update the state with the modified copy of decks
-      setDecks(updatedDecks);
-
-      saveDeckToLocalStorage(updatedDeck);
-
-      setNewCardFront("");
-      setNewCardBack("");
-
+      setDeck(response.data);
       hideAddCardForm();
+    } catch (error) {
+      console.error("Error adding card to deck:", error.message);
+      // Handle the error (e.g., show an error message)
     }
   };
   //End of Creating New Card
@@ -243,8 +231,12 @@ export default function DisplayDeckPage({ isFlipped }) {
           {displayedCards
             .filter(
               (card) =>
-                card.front.toLowerCase().includes(searchText.toLowerCase()) ||
-                card.back.toLowerCase().includes(searchText.toLowerCase())
+                (card.front &&
+                  card.front
+                    .toLowerCase()
+                    .includes(searchText.toLowerCase())) ||
+                (card.back &&
+                  card.back.toLowerCase().includes(searchText.toLowerCase()))
             )
             .map((card) => (
               <div key={card._id} className="card-container">

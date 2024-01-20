@@ -16,9 +16,12 @@ function Card({
   const [back, setBack] = useState(card.back);
   const [isEditing, setIsEditing] = useState(false);
   const { deckId } = useParams();
-
+  console;
   const handleSaveChanges = async (cardId, updatedFront, updatedBack) => {
     try {
+      console.log("Card ID:", cardId);
+      console.log("Updated Front:", updatedFront);
+      console.log("Updated Back:", updatedBack);
       const token = localStorage.getItem("token");
       const updatedCard = {
         front: updatedFront,
@@ -26,8 +29,8 @@ function Card({
       };
       // Make a PUT request to update the card
       const response = await axios.put(
-        `http://localhost:3500/decks/${deckId}/${cardId}`,
-        updatedCard,
+        `http://localhost:3500/decks/${deckId}/cards/${cardId}`,
+        { updatedCard },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -37,7 +40,6 @@ function Card({
 
       // Handle success or navigate to another page
       setIsEditing(false);
-
       onCardUpdateSuccess();
     } catch (error) {
       console.error("Error updating card:", error);

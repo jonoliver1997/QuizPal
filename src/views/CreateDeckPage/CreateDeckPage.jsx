@@ -18,7 +18,6 @@ function CreateDeckPage({ decks, setDecks }) {
 
     // Create a new card object
     const newCard = {
-      cardId: cards.length + 1,
       front: cardFront,
       back: cardBack,
     };

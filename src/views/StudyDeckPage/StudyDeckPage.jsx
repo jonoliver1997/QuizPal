@@ -7,7 +7,6 @@ import "./StudyDeckPage.css";
 function StudyDeckPage({}) {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const { deckId } = useParams();
-  console.log(deckId);
   const [deck, setDeck] = useState(null);
   const [flippedCardId, setFlippedCardId] = useState(null);
 
