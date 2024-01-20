@@ -39,9 +39,9 @@ export default function CardsUtilityBar({
         <div>
           <button
             className="utility--button apply--changes--button"
-            onClick={onSaveChanges}
+            onClick={onEditDeck}
           >
-            Apply Changes
+            Done
           </button>
         </div>
       ) : (

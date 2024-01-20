@@ -61,7 +61,7 @@ export default function RegisterForm() {
     //If all checks pass, alert user and navigate to home page
     try {
       const response = await axios.post(
-        "https://quizpal-api.onrender.com/users/register",
+        "http://localhost:3500/users/register",
         formData,
         {
           headers: {

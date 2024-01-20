@@ -60,7 +60,7 @@ function CreateDeckPage({ decks, setDecks }) {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "https://quizpal-api.onrender.com/decks",
+        "http://localhost:3500/decks",
         newDeck,
         {
           headers: {

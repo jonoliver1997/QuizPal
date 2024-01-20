@@ -10,9 +10,9 @@ import "./DisplayDeckPage.css";
 import NewCardForm from "./components/NewCardForm";
 import axios from "axios";
 
-export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
+export default function DisplayDeckPage({ isFlipped }) {
   const { deckId } = useParams();
-  const [deck, setDeck] = useState(null);
+  const [deck, setDeck] = useState([]);
   const [flippedCardId, setFlippedCardId] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
@@ -26,7 +26,7 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `https://quizpal-api.onrender.com/decks/${deckId}`,
+          `http://localhost:3500/decks/${deckId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -34,8 +34,6 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
           }
         );
         setDeck(response.data); // Set the fetched deck in state
-        console.log(response.data);
-        console.log(deck);
       } catch (error) {
         console.error("Error fetching deck:", error.message);
         // Handle error states
@@ -45,13 +43,13 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
     fetchDeckById(); // Call the function to fetch the deck by ID
   }, [deckId]); // Fetch whenever deckId changes
 
-  if (!deck) {
-    return <div>Deck not found</div>;
-  }
-
   const handleSearchChange = (text) => {
     setSearchText(text);
   };
+
+  if (!deck || deck.length === 0) {
+    return <div>Deck not found</div>;
+  }
 
   //Flip Cards
   function handleCardFlip(cardId) {
@@ -134,7 +132,7 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
 
     // Find the index of the card being edited in the copy
     const cardIndex = updatedEditedCards.findIndex(
-      (editedCard) => editedCard.cardId === cardId
+      (editedCard) => editedCard._id === cardId
     );
 
     if (cardIndex !== -1) {
@@ -157,38 +155,24 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
     setEditedCards(updatedEditedCards);
   };
 
-  const handleSaveChanges = () => {
-    // Create a copy of the deck's cards array
-    const updatedDeckCards = [...deck.cards];
-
-    // Update the deck's cards with the edited cards
-    editedCards.forEach((editedCard) => {
-      const cardIndex = updatedDeckCards.findIndex(
-        (card) => card.cardId === editedCard.cardId
+  const handleCardUpdateSuccess = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:3500/decks/${deckId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      if (cardIndex !== -1) {
-        updatedDeckCards[cardIndex] = editedCard;
-      }
-    });
-
-    // Update the deck object with the modified cards
-    const updatedDeck = {
-      ...deck,
-      cards: updatedDeckCards,
-    };
-
-    // Update the decks state
-    const updatedDecks = decks.map((d) =>
-      d.deckId === deck.deckId ? updatedDeck : d
-    );
-    setDecks(updatedDecks);
-
-    // Update the local storage
-    saveDeckToLocalStorage(updatedDeck);
-
-    // Exit edit mode
-    setEditMode(false);
+      setDeck(response.data); // Update the deck in state
+    } catch (error) {
+      console.error("Error fetching updated deck:", error.message);
+      // Handle error states
+    }
   };
+
   //End of Edit Cards
 
   // Delete the card from the deck's cards array
@@ -238,6 +222,10 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
     setDecks(updatedDecks);
   }
 
+  if (!deck) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="DisplayDeckPage">
       <h2 className="page--title">{deck.title}</h2>
@@ -248,7 +236,6 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
         onSearchChange={handleSearchChange}
         onAddCard={handleAddCard}
         onEditDeck={onEditDeck}
-        onSaveChanges={handleSaveChanges}
         editMode={editMode}
       />
       <div className="grid--container">
@@ -260,15 +247,16 @@ export default function DisplayDeckPage({ decks, setDecks, isFlipped }) {
                 card.back.toLowerCase().includes(searchText.toLowerCase())
             )
             .map((card) => (
-              <div key={card.cardId} className="card-container">
+              <div key={card._id} className="card-container">
                 <Card
                   card={card}
-                  isFlipped={card.cardId === flippedCardId}
+                  isFlipped={card._id === flippedCardId}
                   handleCardFlip={handleCardFlip}
                   editMode={editMode}
                   onEditCard={handleEditCard}
                   onDeleteCard={handleDeleteCard}
                   onClick={handleCardFlip}
+                  onCardUpdateSuccess={handleCardUpdateSuccess}
                 />
               </div>
             ))}

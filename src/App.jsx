@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import axios from "axios";
+import { AuthProvider } from "./contexts/AuthContext";
 import "./App.css";
 import Header from "./components/Header";
 import DecksPage from "./views/AllDecksPage/DecksPage";
@@ -16,81 +22,92 @@ function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = decodeToken(token);
+      if (decodedToken && decodedToken.exp * 1000 > Date.now()) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+        localStorage.removeItem("token");
+      }
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [isAuthenticated]);
 
-  //   if (token) {
-  //     setIsAuthenticated(true);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     const fetchDecks = async () => {
-  //       try {
-  //         const token = localStorage.getItem("token");
-  //         console.log("token:", token);
-  //         const response = await axios.get(
-  //           "https://quizpal-api.onrender.com/decks",
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${token}`,
-  //             },
-  //           }
-  //         );
-  //         setDecks(response.data); // Update state with fetched decks
-  //       } catch (error) {
-  //         console.error("Error fetching decks:", error.message);
-  //         // Handle error states
-  //       }
-  //     };
-  //     fetchDecks();
-  //   }
-  // }, [isAuthenticated]);
-
+  const decodeToken = (token) => {
+    try {
+      return JSON.parse(atob(token.split(".")[1]));
+    } catch (error) {
+      console.error("Error decoding token:", error.message);
+      return null;
+    }
+  };
   return (
     <Router>
-      <div className="App">
-        <Header />
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/register" exact element={<RegisterPage />} />
-          <Route path="/home" exact element={<DecksPage decks={decks} />} />
-          <Route
-            path="/deck/:deckId"
-            element={
-              <DisplayDeckPage
-                decks={decks}
-                setDecks={setDecks}
-                isFlipped={isFlipped}
-              />
-            }
-          />
-          <Route
-            path="/deck/:deckId/study"
-            element={
-              <StudyDeckPage
-                decks={decks}
-                isFlipped={isFlipped}
-                setIsFlipped={setIsFlipped}
-              />
-            }
-          />
-          <Route
-            path="/create-deck"
-            element={
-              <CreateDeckPage
-                decks={decks}
-                setDecks={setDecks}
-                isFlipped={isFlipped}
-                setIsFlipped={setIsFlipped}
-              />
-            }
-          />
-        </Routes>
+      <AuthProvider>
+        <div className="App">
+          <Header />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                isAuthenticated ? <Navigate to="/home" /> : <LoginPage />
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                !isAuthenticated ? (
+                  <Navigate to="/" />
+                ) : (
+                  <DecksPage decks={decks} />
+                )
+              }
+            />
+            <Route path="/register" exact element={<RegisterPage />} />
+            {isAuthenticated ? (
+              <>
+                <Route
+                  path="/deck/:deckId"
+                  element={
+                    <DisplayDeckPage
+                      decks={decks}
+                      setDecks={setDecks}
+                      isFlipped={isFlipped}
+                    />
+                  }
+                />
+                <Route
+                  path="/deck/:deckId/study"
+                  element={
+                    <StudyDeckPage
+                      decks={decks}
+                      isFlipped={isFlipped}
+                      setIsFlipped={setIsFlipped}
+                    />
+                  }
+                />
+                <Route
+                  path="/create-deck"
+                  element={
+                    <CreateDeckPage
+                      decks={decks}
+                      setDecks={setDecks}
+                      isFlipped={isFlipped}
+                      setIsFlipped={setIsFlipped}
+                    />
+                  }
+                />
+              </>
+            ) : null}
+          </Routes>
 
-        <Footer />
-      </div>
+          <Footer />
+        </div>
+      </AuthProvider>
     </Router>
   );
 }

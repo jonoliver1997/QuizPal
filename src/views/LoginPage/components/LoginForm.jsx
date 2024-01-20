@@ -30,13 +30,10 @@ export default function LoginForm() {
     }
 
     try {
-      const response = await axios.post(
-        "https://quizpal-api.onrender.com/users/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post("http://localhost:3500/users/login", {
+        email,
+        password,
+      });
 
       const { data } = response;
 
@@ -49,7 +46,6 @@ export default function LoginForm() {
       console.log("JWT token:", data.token);
 
       // Redirect the user to the chat page
-      navigate("/home");
     } catch (error) {
       // Handle login failure/error
       console.error("Login error:", error);

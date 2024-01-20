@@ -13,15 +13,11 @@ function DecksPage() {
     const fetchDecks = async () => {
       try {
         const token = localStorage.getItem("token");
-        console.log("token from local storage:", token);
-        const response = await axios.get(
-          "https://quizpal-api.onrender.com/decks",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get("http://localhost:3500/decks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setDecks(response.data); // Update state with fetched decks
       } catch (error) {
         console.error("Error fetching decks:", error.message);

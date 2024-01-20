@@ -1,14 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import StudyCard from "./components/StudyCard";
 import { Link, useParams } from "react-router-dom";
 import "./StudyDeckPage.css";
 
-function StudyDeckPage({ decks }) {
+function StudyDeckPage({}) {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const { deckId } = useParams();
+  console.log(deckId);
+  const [deck, setDeck] = useState(null);
   const [flippedCardId, setFlippedCardId] = useState(null);
-  const deck = decks.find((deck) => deck.deckId === Number(deckId));
+
+  useEffect(() => {
+    const fetchDeckById = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`http://localhost:3500/decks/${deckId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Deck not found");
+        }
+        const data = await response.json();
+        setDeck(data);
+      } catch (error) {
+        console.error("Error fetching deck:", error.message);
+        // Handle the error (e.g., show an error message or redirect)
+      }
+    };
+
+    fetchDeckById();
+  }, [deckId]);
 
   if (!deck) {
     // Handle the case where the deck is not found, e.g., show an error message
@@ -64,9 +88,11 @@ function StudyDeckPage({ decks }) {
         </div>
         <FaArrowRight className="arrow--icon" onClick={handleNextClick} />
       </div>
-      <Link to={`/deck/${deck.deckId}`}>
-        <button className="utility--button">Back to Deck</button>
-      </Link>
+      {deck && (
+        <Link to={`/deck/${deckId}`}>
+          <button className="utility--button">Back to Deck</button>
+        </Link>
+      )}
     </div>
   );
 }
