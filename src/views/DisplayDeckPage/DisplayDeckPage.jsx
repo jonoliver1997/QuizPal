@@ -27,7 +27,7 @@ export default function DisplayDeckPage({ isFlipped }) {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/decks/${deckId}`,
+          `https://quizpal-api.onrender.com/decks/${deckId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -84,7 +84,7 @@ export default function DisplayDeckPage({ isFlipped }) {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/decks/${deckId}`,
+        `https://quizpal-api.onrender.com/decks/${deckId}`,
         {
           front: newCardFront,
           back: newCardBack,
@@ -148,7 +148,7 @@ export default function DisplayDeckPage({ isFlipped }) {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/decks/${deckId}`,
+        `https://quizpal-api.onrender.com/decks/${deckId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -169,7 +169,7 @@ export default function DisplayDeckPage({ isFlipped }) {
     try {
       const token = localStorage.getItem("token");
       axios.delete(
-        `${import.meta.env.VITE_API_URL}/decks/${deckId}/cards/${cardId}`,
+        `https://quizpal-api.onrender.com/decks/${deckId}/cards/${cardId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -187,7 +187,7 @@ export default function DisplayDeckPage({ isFlipped }) {
   function handleDeleteDeck() {
     try {
       const token = localStorage.getItem("token");
-      axios.delete(`${import.meta.env.VITE_API_URL}/decks/${deckId}`, {
+      axios.delete(`https://quizpal-api.onrender.com/decks/${deckId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

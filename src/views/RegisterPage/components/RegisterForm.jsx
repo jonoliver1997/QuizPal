@@ -64,7 +64,7 @@ export default function RegisterForm() {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/users/register`,
+        `https://quizpal-api.onrender.com/users/register`,
         formData,
         {
           headers: {

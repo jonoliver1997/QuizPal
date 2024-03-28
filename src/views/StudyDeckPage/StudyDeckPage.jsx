@@ -15,7 +15,7 @@ function StudyDeckPage({}) {
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/decks/${deckId}`,
+          `https://quizpal-api.onrender.com/decks/${deckId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

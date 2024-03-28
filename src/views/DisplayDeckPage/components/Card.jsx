@@ -26,7 +26,7 @@ function Card({
       };
       // Make a PUT request to update the card
       const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/decks/${deckId}/cards/${cardId}`,
+        `https://quizpal-api.onrender.com/decks/${deckId}/cards/${cardId}`,
         { updatedCard },
         {
           headers: {
