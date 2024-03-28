@@ -5,8 +5,9 @@ import {
   FaPlay,
   FaPen,
   FaTrash,
+  FaCheck,
 } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function CardsUtilityBar({
   deck,
@@ -19,6 +20,7 @@ export default function CardsUtilityBar({
 }) {
   const [searchText, setSearchText] = useState("");
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearchChange = (e) => {
     const text = e.target.value;
@@ -35,28 +37,33 @@ export default function CardsUtilityBar({
     }
   };
 
+  const handleStudyClick = () => {
+    navigate("./study");
+  };
+
   return (
     <div className="UtilityBar">
       <button className="utility--button black" onClick={onAddCard}>
-        New Card <FaPlus className="utility--button--icon" />
+        <span className="utility--button--text"> New Card</span>{" "}
+        <FaPlus className="utility--button--icon" />
       </button>
-      <Link to="./study">
-        <button className="utility--button">
-          Study <FaPlay className="utility--button--icon" />
-        </button>
-      </Link>
+      <button className="utility--button" onClick={handleStudyClick}>
+        <span className="utility--button--text">Study</span>{" "}
+        <FaPlay className="utility--button--icon" />
+      </button>
+
       {editMode ? (
-        <div>
-          <button
-            className="utility--button apply--changes--button"
-            onClick={onEditDeck}
-          >
-            Done
-          </button>
-        </div>
+        <button
+          className="utility--button apply--changes--button"
+          onClick={onEditDeck}
+        >
+          <span className="utility--button--text">Done</span>{" "}
+          <FaCheck className="utility--button--icon" />
+        </button>
       ) : (
         <button onClick={onEditDeck} className="utility--button">
-          Edit <FaPen className="utility--button--icon" />{" "}
+          <span className="utility--button--text">Edit</span>{" "}
+          <FaPen className="utility--button--icon" />{" "}
         </button>
       )}
       <button
@@ -64,10 +71,14 @@ export default function CardsUtilityBar({
         onClick={handleDeleteButtonClick}
       >
         {confirmDelete ? (
-          "Confirm"
+          <>
+            <span className="utility--button--text">Confirm</span>{" "}
+            <FaCheck className="utility--button--icon" />
+          </>
         ) : (
           <>
-            Delete <FaTrash className="utility--button--icon" />
+            <span className="utility--button--text">Delete</span>{" "}
+            <FaTrash className="utility--button--icon" />
           </>
         )}
       </button>

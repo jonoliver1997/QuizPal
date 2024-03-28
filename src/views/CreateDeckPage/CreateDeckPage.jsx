@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { saveDeckToLocalStorage } from "../../utils/localStorage";
 import "./CreateDeckPage.css";
 import axios from "axios";
 
@@ -29,25 +28,7 @@ function CreateDeckPage({ decks, setDecks }) {
     setCardFront("");
     setCardBack("");
   };
-  /* const handleSubmit = async (e) => {
-  e.preventDefault();
 
-  try {
-    const newDeckData = {
-      title: deckTitle,
-      cards: cards, // Replace 'cards' with the array of cards you have in your state
-    };
-
-    // Make a POST request to create a new deck
-    const response = await axios.post('http://localhost:3500/decks', newDeckData);
-
-    console.log('Created new deck:', response.data);
-    // Handle success or navigate to another page
-  } catch (error) {
-    console.error('Error creating deck:', error);
-    // Handle error
-  }
-};*/
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,7 +40,7 @@ function CreateDeckPage({ decks, setDecks }) {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:3500/decks",
+        `${import.meta.env.VITE_API_URL}/decks`,
         newDeck,
         {
           headers: {
@@ -80,30 +61,6 @@ function CreateDeckPage({ decks, setDecks }) {
       // Handle error states
     }
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   // Create a new deck with the provided title
-  //   const newDeck = {
-  //     title: deckTitle,
-  //     deckId: decks.length + 1,
-  //     cards: [...cards],
-  //   };
-
-  //   // Save deck to local storage
-  //   saveDeckToLocalStorage(newDeck);
-
-  //   // Add the new deck to the decks array
-  //   setDecks([...decks, newDeck]);
-
-  //   // Clear form inputs
-  //   setDeckTitle("");
-  //   setCards([]);
-
-  //   // Navigate back to DecksPage
-  //   navigate("/");
-  // };
 
   return (
     <div className="CreateDeckPage">
@@ -140,7 +97,7 @@ function CreateDeckPage({ decks, setDecks }) {
         >
           Add Card
         </button>
-        <button className="utility--button create--deck--button" type="submit">
+        <button className="utility--button " type="submit">
           Create Deck
         </button>
       </form>

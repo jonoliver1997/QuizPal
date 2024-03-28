@@ -19,9 +19,6 @@ function Card({
   console;
   const handleSaveChanges = async (cardId, updatedFront, updatedBack) => {
     try {
-      console.log("Card ID:", cardId);
-      console.log("Updated Front:", updatedFront);
-      console.log("Updated Back:", updatedBack);
       const token = localStorage.getItem("token");
       const updatedCard = {
         front: updatedFront,
@@ -29,7 +26,7 @@ function Card({
       };
       // Make a PUT request to update the card
       const response = await axios.put(
-        `http://localhost:3500/decks/${deckId}/cards/${cardId}`,
+        `${import.meta.env.VITE_API_URL}/decks/${deckId}/cards/${cardId}`,
         { updatedCard },
         {
           headers: {
@@ -106,13 +103,15 @@ function Card({
         {editMode && isEditing ? (
           <>
             <div className="card--edit--form">
-              <input
+              <textarea
+                className="edit--textarea"
                 type="text"
                 value={front}
                 onChange={handleFrontChange}
                 placeholder="Front"
               />
-              <input
+              <textarea
+                className="edit--textarea"
                 type="text"
                 value={back}
                 onChange={handleBackChange}

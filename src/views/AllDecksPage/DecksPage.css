@@ -1,15 +1,15 @@
-.UtilityBar{
+.UtilityBar {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content:space-between;
+  justify-content: space-between;
   margin-top: 30px;
   padding: 20px 0;
   border-style: solid hidden;
   border-width: 1px;
   border-color: #e0dbdb;
-  width: 75%;
+  width: 90%;
 }
-
 
 .add--new--button {
   background-color: #282c34;
@@ -18,10 +18,11 @@
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 13px;
+  margin-bottom: 10px;
 }
 
-.search--bar{
+.search--bar {
   position: relative;
   display: flex;
   align-items: center;
@@ -35,7 +36,8 @@
   height: 25px;
 }
 
-.FaMagnifyingGlass{
+.FaMagnifyingGlass {
+  display: none;
   position: absolute;
   right: 10px;
   color: #282c34;
@@ -56,7 +58,7 @@
   background-color: #25a18e;
 }
 
-.decks--grid{
+.decks--grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-gap: 40px;
@@ -66,13 +68,35 @@
 }
 
 @media only screen and (min-width: 601px) {
-  .decks--grid{
-    grid-template-columns: repeat(2, 1fr); 
+  .decks--grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .UtilityBar {
+    flex-direction: row;
+    width: 75%;
+  }
+  .add--new--button {
+    margin-bottom: 0;
+    font-size: 15px;
+  }
+  .FaMagnifyingGlass {
+    display: block;
   }
 }
 
 @media only screen and (min-width: 900px) {
   .decks--grid {
-    grid-template-columns: repeat(3, 1fr); 
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .UtilityBar {
+    flex-direction: row;
+    width: 75%;
+  }
+  .add--new--button {
+    margin-bottom: 0;
+    font-size: 15px;
+  }
+  .FaMagnifyingGlass {
+    display: block;
   }
 }

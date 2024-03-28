@@ -31,11 +31,14 @@ function NewCardForm({
             <div className="add--card--buttons">
               <button
                 type="submit"
-                className="utility--button add--card--button"
+                className="create--utility--button add--card--button"
               >
                 Add Card
               </button>
-              <button className="utility--button" onClick={hideAddCardForm}>
+              <button
+                className="create--utility--button"
+                onClick={hideAddCardForm}
+              >
                 Cancel
               </button>
             </div>

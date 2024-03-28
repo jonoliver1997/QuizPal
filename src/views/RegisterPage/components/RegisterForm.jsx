@@ -12,6 +12,8 @@ export default function RegisterForm() {
     confirmPassword: "",
   });
 
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   // const navigate = useNavigate();
@@ -59,9 +61,10 @@ export default function RegisterForm() {
     }
 
     //If all checks pass, alert user and navigate to home page
+
     try {
       const response = await axios.post(
-        "http://localhost:3500/users/register",
+        `${import.meta.env.VITE_API_URL}/users/register`,
         formData,
         {
           headers: {
@@ -81,7 +84,7 @@ export default function RegisterForm() {
       navigate("/home");
     } catch (error) {
       console.error("Error:", error.message);
-      alert("There was an error registering the user.");
+      setError(error.message);
     }
   };
 
@@ -148,7 +151,7 @@ export default function RegisterForm() {
         formData.password !== formData.confirmPassword && (
           <p>Passwords do not match</p>
         )}
-
+      {error && <p>{error}</p>}
       <button type="submit" className="register--button">
         Register
       </button>

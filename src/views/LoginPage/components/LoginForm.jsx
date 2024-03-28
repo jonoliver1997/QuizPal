@@ -33,14 +33,16 @@ export default function LoginForm() {
     }
 
     try {
-      const response = await axios.post("http://localhost:3500/users/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/users/login`,
+        {
+          email,
+          password,
+        }
+      );
 
       const { data } = response;
 
-      // Store the JWT token in local storage but you can also use cookies
       localStorage.setItem("token", data.token);
 
       // Set the isAuthenticated state to true

@@ -27,7 +27,7 @@ export default function DisplayDeckPage({ isFlipped }) {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:3500/decks/${deckId}`,
+          `${import.meta.env.VITE_API_URL}/decks/${deckId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -84,7 +84,7 @@ export default function DisplayDeckPage({ isFlipped }) {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `http://localhost:3500/decks/${deckId}`,
+        `${import.meta.env.VITE_API_URL}/decks/${deckId}`,
         {
           front: newCardFront,
           back: newCardBack,
@@ -148,7 +148,7 @@ export default function DisplayDeckPage({ isFlipped }) {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:3500/decks/${deckId}`,
+        `${import.meta.env.VITE_API_URL}/decks/${deckId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -164,49 +164,30 @@ export default function DisplayDeckPage({ isFlipped }) {
 
   //End of Edit Cards
 
-  // Delete the card from the deck's cards array
+  // Delete the card from the deck
   function handleDeleteCard(cardId) {
-    // Filter out the card with the cardId from the deck's cards
-    const updatedDeckCards = deck.cards.filter(
-      (card) => card.cardId !== cardId
-    );
-
-    // Update the deck object with the modified cards
-    const updatedDeck = {
-      ...deck,
-      cards: updatedDeckCards,
-    };
-
-    // Create a copy of the edited cards array
-    const updatedEditedCards = [...editedCards];
-
-    // Remove the deleted card from the edited cards array
-    const cardIndex = updatedEditedCards.findIndex(
-      (editedCard) => editedCard.cardId === cardId
-    );
-
-    if (cardIndex !== -1) {
-      updatedEditedCards.splice(cardIndex, 1);
+    try {
+      const token = localStorage.getItem("token");
+      axios.delete(
+        `${import.meta.env.VITE_API_URL}/decks/${deckId}/cards/${cardId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const updatedDeck = deck.cards.filter((card) => card._id !== cardId);
+      setDeck({ ...deck, cards: updatedDeck });
+    } catch (error) {
+      console.error("Error deleting card:", error.message);
     }
-
-    // Update the state with the modified copy of edited cards
-    setEditedCards(updatedEditedCards);
-
-    // Update the decks array with the modified deck
-    const updatedDecks = decks.map((d) =>
-      d.deckId === deck.deckId ? updatedDeck : d
-    );
-    setDecks(updatedDecks);
-
-    // Update the local storage
-    saveDeckToLocalStorage(updatedDeck);
   }
 
   // Delete the deck from the decks array
   function handleDeleteDeck() {
     try {
       const token = localStorage.getItem("token");
-      axios.delete(`http://localhost:3500/decks/${deckId}`, {
+      axios.delete(`${import.meta.env.VITE_API_URL}/decks/${deckId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

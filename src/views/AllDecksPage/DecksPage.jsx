@@ -13,11 +13,14 @@ function DecksPage() {
     const fetchDecks = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:3500/decks", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/decks`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setDecks(response.data); // Update state with fetched decks
       } catch (error) {
         console.error("Error fetching decks:", error.message);

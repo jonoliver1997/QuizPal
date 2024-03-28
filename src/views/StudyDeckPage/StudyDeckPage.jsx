@@ -14,11 +14,14 @@ function StudyDeckPage({}) {
     const fetchDeckById = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:3500/decks/${deckId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/decks/${deckId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error("Deck not found");
         }
@@ -77,7 +80,6 @@ function StudyDeckPage({}) {
         Card {currentCardIndex + 1}/{deck.cards.length}
       </p>
       <div className="card--study--layout">
-        <FaArrowLeft className="arrow--icon" onClick={handlePrevClick} />
         <div>
           <StudyCard
             card={currentCard}
@@ -85,12 +87,17 @@ function StudyDeckPage({}) {
             handleCardFlip={handleCardFlip}
           />
         </div>
+      </div>
+      <div className="arrow-buttons">
+        <FaArrowLeft className="arrow--icon" onClick={handlePrevClick} />
         <FaArrowRight className="arrow--icon" onClick={handleNextClick} />
       </div>
       {deck && (
-        <Link to={`/deck/${deckId}`}>
-          <button className="utility--button">Back to Deck</button>
-        </Link>
+        <div>
+          <Link to={`/deck/${deckId}`}>
+            <button className="utility--button">Back to Deck</button>
+          </Link>
+        </div>
       )}
     </div>
   );
