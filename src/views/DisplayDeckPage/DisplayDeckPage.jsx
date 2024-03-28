@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Card from "./components/Card";
 import CardsUtilityBar from "./components/CardsUtilityBar";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import {
   deleteDeckFromLocalStorage,
   saveDeckToLocalStorage,
@@ -20,6 +20,7 @@ export default function DisplayDeckPage({ isFlipped }) {
   const [newCardBack, setNewCardBack] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [editedCards, setEditedCards] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDeckById = async () => {
@@ -203,11 +204,17 @@ export default function DisplayDeckPage({ isFlipped }) {
 
   // Delete the deck from the decks array
   function handleDeleteDeck() {
-    deleteDeckFromLocalStorage(deckId);
-
-    const updatedDecks = decks.filter((deck) => deck.deckId !== Number(deckId));
-
-    setDecks(updatedDecks);
+    try {
+      const token = localStorage.getItem("token");
+      axios.delete(`http://localhost:3500/decks/${deckId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      navigate("/home");
+    } catch (error) {
+      console.error("Error deleting deck:", error.message);
+    }
   }
 
   if (!deck) {

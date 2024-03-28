@@ -9,6 +9,7 @@ p {
   font-size: 15px;
 }
 .Header {
+  position: relative;
   background-color: #004e64;
   height: 120px;
   width: 100%;
@@ -16,6 +17,24 @@ p {
   align-items: center;
   justify-content: space-between;
   color: white;
+}
+.logout-popup {
+  position: absolute;
+  top: calc(100% - 40px); /* Position the popup below the icon */
+  left: 50px; /* Position the popup at the left edge of the icon */
+  transform: translateX(-50%);
+  background-color: #fff;
+  color: #000000;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.logout-popup:hover {
+  background-color: #f2f2f2;
 }
 
 .black {
@@ -35,6 +54,17 @@ p {
   color: #d7e0e4;
   font-size: 2rem;
   margin: 0 20px;
+}
+
+.header--button {
+  background-color: #004e64;
+  color: #f2f2f2;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 2rem;
+  margin: 0 20px;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {

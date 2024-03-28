@@ -18,11 +18,21 @@ export default function CardsUtilityBar({
   editMode,
 }) {
   const [searchText, setSearchText] = useState("");
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const handleSearchChange = (e) => {
     const text = e.target.value;
     setSearchText(text);
-    onSearchChange(text); // Pass the search text to the parent component
+    onSearchChange(text);
+  };
+
+  const handleDeleteButtonClick = () => {
+    if (confirmDelete) {
+      onDeleteDeck();
+      setConfirmDelete(false);
+    } else {
+      setConfirmDelete(true);
+    }
   };
 
   return (
@@ -49,11 +59,18 @@ export default function CardsUtilityBar({
           Edit <FaPen className="utility--button--icon" />{" "}
         </button>
       )}
-      <Link to="/">
-        <button className="utility--button red" onClick={onDeleteDeck}>
-          Delete <FaTrash className="utility--button--icon" />{" "}
-        </button>
-      </Link>
+      <button
+        className={`utility--button red`}
+        onClick={handleDeleteButtonClick}
+      >
+        {confirmDelete ? (
+          "Confirm"
+        ) : (
+          <>
+            Delete <FaTrash className="utility--button--icon" />
+          </>
+        )}
+      </button>
       <div className="search--bar">
         <input
           type="text"

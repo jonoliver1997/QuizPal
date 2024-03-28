@@ -5,8 +5,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import axios from "axios";
-import { AuthProvider } from "./contexts/AuthContext";
+import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
 import Header from "./components/Header";
 import DecksPage from "./views/AllDecksPage/DecksPage";
@@ -18,9 +17,9 @@ import RegisterPage from "./views/RegisterPage/RegisterPage";
 import LoginPage from "./views/LoginPage/LoginPage";
 
 function App() {
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [decks, setDecks] = useState([]);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -47,67 +46,63 @@ function App() {
   };
   return (
     <Router>
-      <AuthProvider>
-        <div className="App">
-          <Header />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                isAuthenticated ? <Navigate to="/home" /> : <LoginPage />
-              }
-            />
-            <Route
-              path="/home"
-              element={
-                !isAuthenticated ? (
-                  <Navigate to="/" />
-                ) : (
-                  <DecksPage decks={decks} />
-                )
-              }
-            />
-            <Route path="/register" exact element={<RegisterPage />} />
-            {isAuthenticated ? (
-              <>
-                <Route
-                  path="/deck/:deckId"
-                  element={
-                    <DisplayDeckPage
-                      decks={decks}
-                      setDecks={setDecks}
-                      isFlipped={isFlipped}
-                    />
-                  }
-                />
-                <Route
-                  path="/deck/:deckId/study"
-                  element={
-                    <StudyDeckPage
-                      decks={decks}
-                      isFlipped={isFlipped}
-                      setIsFlipped={setIsFlipped}
-                    />
-                  }
-                />
-                <Route
-                  path="/create-deck"
-                  element={
-                    <CreateDeckPage
-                      decks={decks}
-                      setDecks={setDecks}
-                      isFlipped={isFlipped}
-                      setIsFlipped={setIsFlipped}
-                    />
-                  }
-                />
-              </>
-            ) : null}
-          </Routes>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route
+            path="/"
+            element={isAuthenticated ? <Navigate to="/home" /> : <LoginPage />}
+          />
+          <Route
+            path="/home"
+            element={
+              !isAuthenticated ? (
+                <Navigate to="/" />
+              ) : (
+                <DecksPage decks={decks} />
+              )
+            }
+          />
+          <Route path="/register" exact element={<RegisterPage />} />
+          {isAuthenticated ? (
+            <>
+              <Route
+                path="/deck/:deckId"
+                element={
+                  <DisplayDeckPage
+                    decks={decks}
+                    setDecks={setDecks}
+                    isFlipped={isFlipped}
+                  />
+                }
+              />
+              <Route
+                path="/deck/:deckId/study"
+                element={
+                  <StudyDeckPage
+                    decks={decks}
+                    isFlipped={isFlipped}
+                    setIsFlipped={setIsFlipped}
+                  />
+                }
+              />
+              <Route
+                path="/create-deck"
+                element={
+                  <CreateDeckPage
+                    decks={decks}
+                    setDecks={setDecks}
+                    isFlipped={isFlipped}
+                    setIsFlipped={setIsFlipped}
+                  />
+                }
+              />
+            </>
+          ) : null}
+        </Routes>
 
-          <Footer />
-        </div>
-      </AuthProvider>
+        <Footer />
+      </div>
     </Router>
   );
 }

@@ -35,3 +35,14 @@
   cursor: pointer;
   font-size: 15px;
 }
+
+.login-as-guest {
+  display: block;
+  flex-direction: row;
+  align-items: center;
+}
+
+.login-as-guest label {
+  margin-right: 10px;
+  font-size: 15px;
+}
